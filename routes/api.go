@@ -20,7 +20,7 @@ func ApiRoute(route *echo.Echo) {
 
 	route.Validator = &CustomValidator{validator: validator.New()}
 
-	g := route.Group("/user")
+	g := route.Group("/v1")
 	g.Use(controller.TokenRefresherMiddleware)
 	g.Use(middleware.JWTWithConfig(middleware.JWTConfig{
 		Claims:                  &controller.Claims{},
@@ -29,9 +29,14 @@ func ApiRoute(route *echo.Echo) {
 		ErrorHandlerWithContext: controller.JWTErrorChecker,
 	}))
 
-	g.GET("", controller.UserGet())
-	g.POST("", controller.UserCreate())
-	g.PUT("/:email", controller.UserUpdate())
-	g.DELETE("/:email", controller.UserDelete())
+	g.GET("/user", controller.UserGet())
+	g.POST("/user", controller.UserCreate())
+	g.PUT("/user/:email", controller.UserUpdate())
+	g.DELETE("/user/:email", controller.UserDelete())
+
+	g.GET("/inventory", controller.InventoryGet())
+	g.POST("/inventory", controller.InventoryCreate())
+	g.PUT("/inventory/:id", controller.InventoryUpdate())
+	g.DELETE("/inventory/:id", controller.InventoryDelete())
 
 }

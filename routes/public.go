@@ -10,8 +10,4 @@ func PublicRoute(route *echo.Echo) {
 
 	route.POST("/user/signin", controller.SignIn())
 
-	route.GET("/inventory", controller.InventoryGet())
-	route.PUT("/inventory/:id", controller.InventoryUpdate())
-	route.POST("/inventory", controller.InventoryCreate())
-
 }

@@ -62,3 +62,19 @@ func InventoryUpdate() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, response)
 	}
 }
+
+func InventoryDelete() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		inventory, _ := model.InventoryGetOneById(c.Param("id")) // method get by email
+		response := new(Response)
+
+		if inventory.DeleteInventory() != nil { // method update user
+			response.ErrorCode = 10
+			response.Message = "Gagal menghapus data user"
+		} else {
+			response.ErrorCode = 0
+			response.Message = "Sukses menghapus data user"
+		}
+		return c.JSON(http.StatusOK, response)
+	}
+}
