@@ -51,7 +51,7 @@ func InventoryUpdate() echo.HandlerFunc {
 
 		c.Bind(inventory)
 		response := new(Response)
-		if inventory.UpdateInventory(id) != nil { // method update inventory
+		if inventory.UpdateItem(id) != nil { // method update inventory
 			response.ErrorCode = 10
 			response.Message = "Gagal update data inventory"
 		} else {
@@ -65,10 +65,10 @@ func InventoryUpdate() echo.HandlerFunc {
 
 func InventoryDelete() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		inventory, _ := model.InventoryGetOneById(c.Param("id")) // method get by email
+		inventory, _ := model.InventoryGetOneById(c.Param("id")) // method get by id
 		response := new(Response)
 
-		if inventory.DeleteInventory() != nil { // method update user
+		if inventory.DeleteItem() != nil { // method update user
 			response.ErrorCode = 10
 			response.Message = "Gagal menghapus data user"
 		} else {
@@ -76,5 +76,23 @@ func InventoryDelete() echo.HandlerFunc {
 			response.Message = "Sukses menghapus data user"
 		}
 		return c.JSON(http.StatusOK, response)
+	}
+}
+
+func InventoryGetDetail() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		inventory, err := model.InventoryGetOneById(c.Param("id")) // method get by id
+		response := new(Response)
+
+		if err != nil {
+			response.ErrorCode = http.StatusNotFound
+			response.Message = "Item Not Found"
+		} else {
+			response.ErrorCode = 0
+			response.Message = "Sukses get data"
+			response.Data = inventory
+		}
+
+		return c.JSON(response.ErrorCode, response)
 	}
 }

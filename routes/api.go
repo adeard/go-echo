@@ -37,6 +37,7 @@ func ApiRoute(route *echo.Echo) {
 	g.GET("/inventory", controller.InventoryGet())
 	g.POST("/inventory", controller.InventoryCreate())
 	g.PUT("/inventory/:id", controller.InventoryUpdate())
+	g.GET("/inventory/:id", controller.InventoryGetDetail())
 	g.DELETE("/inventory/:id", controller.InventoryDelete())
 
 }

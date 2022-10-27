@@ -6,6 +6,7 @@ import (
 )
 
 type Inventory struct {
+	Id           int    `json:"id" form:"id"`
 	Name         string `json:"name" form:"name" validate:"required,name"`
 	CategoryType string `json:"category_type" form:"category_type" validate:"required"`
 	Stock        int    `json:"stock" form:"stock" validate:"required"`
@@ -19,14 +20,14 @@ func (inventory *Inventory) CreateInventory() error {
 	return nil
 }
 
-func (inventory *Inventory) UpdateInventory(id int) error {
+func (inventory *Inventory) UpdateItem(id int) error {
 	if err := config.DB.Model(&Inventory{}).Where("id = ?", id).Updates(inventory).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func (inventory *Inventory) DeleteInventory() error {
+func (inventory *Inventory) DeleteItem() error {
 	if err := config.DB.Delete(inventory).Error; err != nil {
 		return err
 	}
