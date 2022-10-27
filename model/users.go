@@ -5,6 +5,7 @@ import (
 )
 
 type Users struct {
+	Id          int    `json:"id" form:"id"`
 	Email       string `json:"email" form:"email" validate:"required,email"`
 	Nama        string `json:"nama" form:"nama" validate:"required"`
 	NoHandphone string `json:"no_handphone" form:"no_handphone" validate:"required"`

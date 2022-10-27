@@ -9,5 +9,5 @@ import (
 func PublicRoute(route *echo.Echo) {
 
 	route.POST("/user/signin", controller.SignIn())
-
+	route.GET("/protected", controller.ProtectedVerify())
 }

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/base64"
 	"fmt"
 	"go-echo/config"
 	"go-echo/model"
@@ -118,6 +119,33 @@ func UserGet() echo.HandlerFunc {
 			response.ErrorCode = 0
 			response.Message = "Sukses melihat data user"
 			response.Data = users
+		}
+
+		return c.JSON(http.StatusOK, response)
+	}
+}
+
+func ProtectedVerify() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		response := new(Response)
+		data, err := base64.StdEncoding.DecodeString(c.FormValue("u"))
+		if err != nil {
+			return err
+		}
+
+		email := string(data)
+
+		user, err := model.GetOneByEmail(email)
+		if err != nil {
+			response.ErrorCode = http.StatusNotFound
+			response.Message = "User Not Found"
+		} else {
+
+			result := map[string]int{"login_user_id": user.Id}
+
+			response.ErrorCode = 0
+			response.Message = "User Detected"
+			response.Data = result
 		}
 
 		return c.JSON(http.StatusOK, response)
