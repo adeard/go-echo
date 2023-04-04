@@ -8,6 +8,7 @@ import (
 
 func PublicRoute(route *echo.Echo) {
 
-	route.POST("/user/signin", controller.SignIn())
+	route.POST("/login", controller.SignIn())
 	route.GET("/protected", controller.ProtectedVerify())
+	route.POST("/register", controller.UserCreate())
 }
